@@ -1,0 +1,30 @@
+import subprocess
+import smtplib
+from email.mime.text import MIMEText
+import time
+
+def ping_server(host):
+    response = subprocess.run(["ping", "-c", "4", host], stdout=subprocess.PIPE)
+    return response.stdout.decode()
+
+def send_email_alert(subject, body):
+    sender = "sender@example.com"
+    receiver = "recipient@example.com"
+    msg = MIMEText(body)
+    msg["Subject"] = subject
+    msg["From"] = sender
+    msg["To"] = receiver
+
+    with smtplib.SMTP("smtp.example.com") as server:
+        server.login(sender, "your_password")
+        server.sendmail(sender, receiver, msg.as_string())
+
+def monitor_network():
+    host = "8.8.8.8"  # Google's DNS server
+    while True:
+        result = ping_server(host)
+        if "0% packet loss" not in result:
+            send_email_alert("Network Issue", f"Ping failed:\n{result}")
+        time.sleep(3600)  # Check every hour
+
+monitor_network()
