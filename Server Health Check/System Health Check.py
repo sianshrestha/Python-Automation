@@ -1,7 +1,7 @@
 import psutil
 
-def check_server_health():
-    print("Server Health Check:")
+def check_system_health():
+    print("System Health Check:")
 
     # Check CPU usage
     cpu_usage = psutil.cpu_percent(interval=1)
@@ -26,4 +26,4 @@ def check_server_health():
     print(f"Network: Sent={net_io.bytes_sent} bytes, Received={net_io.bytes_recv} bytes")
 
 if __name__ == "__main__":
-    check_server_health()
+    check_system_health()
