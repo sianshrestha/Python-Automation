@@ -1,0 +1,22 @@
+import platform
+import os
+from docx import Document
+
+def generate_report():
+    doc = Document()
+    doc.add_heading('IT System Report', 0)
+
+    # System information
+    doc.add_heading('System Information:', level=1)
+    doc.add_paragraph(f"OS: {platform.system()} {platform.release()}")
+    doc.add_paragraph(f"Machine: {platform.machine()}")
+    doc.add_paragraph(f"Processor: {platform.processor()}")
+
+    # Hardware info (just as an example)
+    doc.add_heading('Hardware Info:', level=1)
+    doc.add_paragraph(f"Available Disk Space: {round(os.statvfs('/').f_frsize * os.statvfs('/').f_blocks / 1024**3, 2)} GB")
+
+    # Save document
+    doc.save("System_Report.docx")
+
+generate_report()
